@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Iniciar Sesión')),
+      appBar: AppBar(title: const Center(child: Text('Hockey App'))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Icon(Icons.lock_person, size: 80, color: Colors.indigo),
+              const Icon(Icons.sports_hockey, size: 80, color: Colors.red),
               const SizedBox(height: 20),
               TextFormField(
                 controller: _emailController,
@@ -116,7 +116,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Entrar', style: TextStyle(fontSize: 16)),
+                    : const Text(
+                        'Entrar',
+                        style: TextStyle(fontSize: 16, color: Colors.red),
+                      ),
               ),
               const SizedBox(height: 20),
               TextButton(
