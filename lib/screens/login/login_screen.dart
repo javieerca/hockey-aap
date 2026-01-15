@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hockey_app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hockey_app/screens/register_screen.dart';
+import 'package:hockey_app/screens/login/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

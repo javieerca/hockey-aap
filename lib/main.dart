@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hockey_app/firebase_options.dart';
-import 'package:hockey_app/screens/login_screen.dart';
+import 'package:hockey_app/screens/login/login_screen.dart';
 import 'package:hockey_app/screens/home_screen.dart';
+import 'package:hockey_app/screens/profile_screen.dart';
 import 'package:hockey_app/services/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +21,11 @@ class MyApp extends StatelessWidget {
     final AuthService authService = AuthService();
 
     return MaterialApp(
+      routes: {
+        '/home': (context) => const HomeScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/profile': (context) => const ProfileScreen(),
+      },
       title: 'Firebase Auth Starter',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

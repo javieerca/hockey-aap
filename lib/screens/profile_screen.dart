@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hockey_app/services/auth_service.dart';
+import 'package:hockey_app/widgets/appbar/appbar_items.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -18,7 +19,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(145, 155, 160, 1),
       appBar: AppBar(
-        title: const Text('Mi Perfil'),
+        title: const AppbarText(text: 'Mi Perfil'),
+        backgroundColor: Color.fromRGBO(145, 155, 160, 1),
         centerTitle: true,
         automaticallyImplyLeading: false, // Don't show back button if in tab
       ),
@@ -54,6 +56,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: const Color.fromARGB(255, 0, 0, 0),
               ),
             ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      style: TextStyle(fontSize: 26, color: Colors.white),
+                      '0',
+                    ),
+                    Text(
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      'Siguiendo',
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            Divider(),
             const SizedBox(height: 30),
             // Options List
             _buildProfileOption(

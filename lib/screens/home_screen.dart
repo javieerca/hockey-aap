@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hockey_app/models/team.dart';
 import 'package:hockey_app/screens/favourites_screen.dart';
 import 'package:hockey_app/screens/profile_screen.dart';
 import 'package:hockey_app/services/auth_service.dart';
@@ -12,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> _teams = [];
+  List<Team> _teams = [];
   bool _isLoading = true;
   final firestoreService = FirestoreService();
   final AuthService authService = AuthService();
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const Center(
       child: Text('Pantalla 2: Clasificación', style: TextStyle(fontSize: 20)),
     ),
-    Center(child: FavouritesScreen(teams: _teams)),
+    const Center(child: FavouritesScreen()),
     const Center(child: ProfileScreen()),
   ];
 
@@ -88,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('No tienes equipos asignados.'),
+              const Text('No sigues a ningún equipo.'),
               const SizedBox(height: 20),
               ListView(
                 shrinkWrap: true,
@@ -98,10 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: const Text('FC Barcelona'),
                     trailing: const Icon(Icons.add),
                     onTap: () {
-                      firestoreService.addTeam(
-                        authService.currentUser!.uid,
-                        'FC Barcelona',
-                      );
                       _loadUser();
                     },
                   ),
@@ -111,10 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: const Text('Real Madrid FC'),
                     trailing: const Icon(Icons.add),
                     onTap: () {
-                      firestoreService.addTeam(
-                        authService.currentUser!.uid,
-                        'Real Madrid FC',
-                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Equipo agregado correctamente'),
@@ -139,6 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType
             .fixed, // <--- IMPORTANTE: Si tienes +3 botones, pon esto o se volverá blanco
         backgroundColor: Colors.white,
+
         selectedItemColor: const Color.fromARGB(
           255,
           0,
@@ -163,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.star_border),
             activeIcon: Icon(Icons.star), // Icono relleno cuando está activo
-            label: 'Favoritos',
+            label: 'Mis equipos',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
@@ -172,77 +166,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-
-    // return Scaffold(
-    //   backgroundColor: const Color.fromARGB(172, 245, 245, 245),
-    //   appBar: AppBar(
-    //     title: const Text('Dashboard'),
-    //     actions: [
-    //       IconButton(
-    //         icon: const Icon(Icons.logout),
-    //         onPressed: () async {
-    //           await authService.signOut();
-    //           // Navigation handled by StreamBuilder in main.dart
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    //   body: Padding(
-    //     padding: const EdgeInsets.all(16),
-    //     child: Center(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           const Icon(
-    //             Icons.check_circle_outline,
-    //             size: 100,
-    //             color: Colors.green,
-    //           ),
-    //           const SizedBox(height: 20),
-    //           const Text(
-    //             '¡Bienvenido!',
-    //             style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-    //           ),
-    //           const SizedBox(height: 10),
-    //           Text(
-    //             'Sesión iniciada como:',
-    //             style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-    //           ),
-    //           Text(
-    //             authService.currentUser?.email ?? 'Usuario desconocido',
-    //             style: const TextStyle(
-    //               fontSize: 20,
-    //               fontWeight: FontWeight.w500,
-    //             ),
-    //           ),
-    //           const SizedBox(height: 40),
-    //           Card(
-    //             elevation: 4,
-    //             child: Padding(
-    //               padding: const EdgeInsets.all(16.0),
-    //               child: Column(
-    //                 children: [
-    //                   const ListTile(
-    //                     leading: Icon(Icons.info),
-    //                     title: Text('Firebase Auth Boilerplate'),
-    //                     subtitle: Text(
-    //                       'Este es un proyecto base listo para usar.',
-    //                     ),
-    //                   ),
-    //                   const Divider(),
-    //                   const Text(
-    //                     'Aquí puedes comenzar a construir tu aplicación.',
-    //                   ),
-    //                   const SizedBox(height: 10),
-    //                   Text('Equipos: ${_teams.length}'),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }
