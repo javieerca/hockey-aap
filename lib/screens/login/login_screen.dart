@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hockey_app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hockey_app/screens/login/register_screen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -48,6 +49,40 @@ class _LoginScreenState extends State<LoginScreen> {
             _isLoading = false;
           });
         }
+      }
+    }
+  }
+
+  void loginWithGoogle() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await _authService.signInWithGoogle();
+      // Navigation handled by StreamBuilder in main.dart
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      String message = 'Error al iniciar sesión';
+      if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
+        message = 'Credenciales inválidas.';
+      } else if (e.code == 'wrong-password') {
+        message = 'Contraseña incorrecta.';
+      } else {
+        message = e.message ?? 'Error desconocido';
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -109,6 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: _isLoading ? null : _login,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: Colors.lightBlue,
                 ),
                 child: _isLoading
                     ? const SizedBox(
@@ -118,10 +154,41 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     : const Text(
                         'Entrar',
-                        style: TextStyle(fontSize: 16, color: Colors.red),
+                        style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
               ),
               const SizedBox(height: 20),
+
+              ElevatedButton(
+                onPressed: _isLoading ? null : loginWithGoogle,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: Colors.red,
+                ),
+                child: _isLoading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'lib/assets/icons/google-white-icon.svg',
+                            width: 24,
+                            height: 24,
+                          ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            'Entrar con Google',
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                        ],
+                      ),
+              ),
+              const SizedBox(height: 20),
+
               TextButton(
                 onPressed: () {
                   Navigator.push(
