@@ -26,11 +26,14 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
       body: ListView(
         children: [
           FavTeamItemList(),
-          FloatingActionButton(
-            onPressed: () {
-              uploadHockeyTeams();
-            },
-            child: const Text('Añadir equipos'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                uploadHockeyTeams();
+              },
+              child: const Text('Añadir equipos'),
+            ),
           ),
         ],
       ),

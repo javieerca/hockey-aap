@@ -68,6 +68,7 @@ class AuthService {
 
   // Cerrar sesión
   Future<void> signOut() async {
+    await GoogleSignIn().signOut();
     await _auth.signOut();
   }
 }

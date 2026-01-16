@@ -39,6 +39,7 @@ class MyNavBar extends StatelessWidget {
           activeIcon: Icon(Icons.star), // Icono relleno cuando está activo
           label: 'Favoritos',
         ),
+        BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
           label: 'Perfil',
