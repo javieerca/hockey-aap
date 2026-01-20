@@ -4,6 +4,7 @@ class Team {
   final bool isSelected;
   final String federacion;
   final String liga;
+  final bool isFavorite;
 
   Team({
     required this.id,
@@ -11,6 +12,7 @@ class Team {
     this.isSelected = false,
     required this.federacion,
     required this.liga,
+    required this.isFavorite,
   });
 
   factory Team.fromMap(Map<String, dynamic> map) {
@@ -20,6 +22,7 @@ class Team {
       isSelected: map['isSelected'] ?? false,
       federacion: map['federacion'] ?? '',
       liga: map['liga'] ?? '',
+      isFavorite: map['isFavorite'] ?? false,
     );
   }
 }

@@ -44,7 +44,12 @@ class FirestoreService {
         'teamName': team.name,
         'federacion': team.federacion,
         'liga': team.liga,
+        'isFavorite': team.isFavorite,
       });
+
+      if (team.isFavorite) {
+        await markFavorite(uid, team.id);
+      }
     }
   }
 
@@ -55,5 +60,48 @@ class FirestoreService {
         .collection('favteams')
         .doc(teamId)
         .delete();
+  }
+
+  Future<void> markFavorite(String uid, String teamId) async {
+    await _db.collection('users').doc(uid).update({'favouriteTeamId': teamId});
+    await _db
+        .collection('users')
+        .doc(uid)
+        .collection('favteams')
+        .doc(teamId)
+        .update({'isFavorite': true});
+  }
+
+  Future<void> unmarkFavorite(String uid, String teamId) async {
+    await _db
+        .collection('users')
+        .doc(uid)
+        .collection('favteams')
+        .doc(teamId)
+        .update({'isFavorite': false});
+  }
+
+  Future<String> getFavTeamName(String uid) async {
+    final response = await _db.collection('users').doc(uid).get();
+    final teamId = response.data()?['favouriteTeamId'];
+    final teamName = await _db
+        .collection('users')
+        .doc(uid)
+        .collection('favteams')
+        .doc(teamId)
+        .get();
+    if (response.exists && teamName.exists) {
+      return teamName.data()?['teamName'] ?? 'No favourite team';
+    }
+    return 'No favourite team';
+  }
+
+  Future<String> getFavTeamId(String uid) async {
+    final response = await _db.collection('users').doc(uid).get();
+    final teamId = response.data()?['favouriteTeamId'];
+    if (response.exists) {
+      return teamId;
+    }
+    return '';
   }
 }

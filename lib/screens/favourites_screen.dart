@@ -55,6 +55,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'RFEP',
         liga: 'OK Liga',
+        isFavorite: true,
       ),
       Team(
         id: 'team_02',
@@ -62,6 +63,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'RFEP',
         liga: 'OK Liga',
+        isFavorite: false,
       ),
       Team(
         id: 'team_03',
@@ -69,6 +71,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'RFEP',
         liga: 'OK Liga',
+        isFavorite: false,
       ),
       Team(
         id: 'team_04',
@@ -76,6 +79,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'RFEP',
         liga: 'OK Liga',
+        isFavorite: false,
       ),
       Team(
         id: 'team_05',
@@ -83,6 +87,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'RFEP',
         liga: 'OK Liga',
+        isFavorite: false,
       ),
       Team(
         id: 'team_06',
@@ -90,6 +95,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'FPP',
         liga: '1ª Divisão',
+        isFavorite: false,
       ),
       Team(
         id: 'team_07',
@@ -97,6 +103,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'FPP',
         liga: '1ª Divisão',
+        isFavorite: false,
       ),
       Team(
         id: 'team_08',
@@ -104,6 +111,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'FPP',
         liga: '1ª Divisão',
+        isFavorite: false,
       ),
       Team(
         id: 'team_09',
@@ -111,6 +119,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'FPP',
         liga: '1ª Divisão',
+        isFavorite: false,
       ),
       Team(
         id: 'team_10',
@@ -118,10 +127,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         isSelected: false,
         federacion: 'FPP',
         liga: '1ª Divisão',
+        isFavorite: false,
       ),
     ];
 
     db.addTeams(authService.currentUser!.uid, teams);
-    // 3. Preparamos las operaciones
   }
 }

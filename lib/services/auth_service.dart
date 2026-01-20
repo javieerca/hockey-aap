@@ -61,7 +61,6 @@ class AuthService {
 
       return userCredential.user;
     } catch (e) {
-      print("❌ Error general en Google Sign-In: $e");
       rethrow;
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hockey_app/models/federation.dart';
+import 'package:hockey_app/screens/search/league_in_fed_screen.dart';
 import 'package:hockey_app/services/api_service.dart';
 import 'package:hockey_app/widgets/appbar/appbar_items.dart';
 
@@ -23,7 +24,7 @@ class _SearchTeamScreenState extends State<SearchTeamScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(240, 242, 245, 1),
+      backgroundColor: const Color.fromRGBO(145, 155, 160, 1),
       appBar: AppBar(
         title: const AppbarText(text: 'Federaciones'),
         centerTitle: true,
@@ -61,7 +62,14 @@ class _SearchTeamScreenState extends State<SearchTeamScreen> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    // TODO: Navigate to leagues or teams of this federation
+                    // Navigate to LeagueInFedScreen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            LeagueInFedScreen(federationId: federation.id),
+                      ),
+                    );
                   },
                   borderRadius: BorderRadius.circular(12),
                   child: Column(

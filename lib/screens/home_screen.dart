@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hockey_app/models/team.dart';
 import 'package:hockey_app/screens/favourites_screen.dart';
+import 'package:hockey_app/screens/match_screen.dart';
 import 'package:hockey_app/screens/profile_screen.dart';
-import 'package:hockey_app/screens/search_team_screen.dart';
+import 'package:hockey_app/screens/search/search_tab_navigator.dart';
 import 'package:hockey_app/services/auth_service.dart';
 import 'package:hockey_app/services/firestore_service.dart';
 
@@ -51,13 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
     const Center(
       child: Text('Pantalla 2: Clasificación', style: TextStyle(fontSize: 20)),
     ),
-    const Center(
-      child: Text(
-        'Pantalla 1: Resultados y Partidos',
-        style: TextStyle(fontSize: 20),
-      ),
-    ),
-    const Center(child: SearchTeamScreen()),
+    const Center(child: MatchScreen()),
+    const SearchTabNavigator(),
     const Center(child: ProfileScreen()),
   ];
 
