@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hockey_app/models/team.dart';
 
 class FirestoreService {
@@ -20,7 +21,7 @@ class FirestoreService {
         .collection('favteams')
         .get();
     if (response.docs.isNotEmpty) {
-      return response.docs.map((doc) => Team.fromMap(doc.data())).toList();
+      return response.docs.map((doc) => Team.fromJson(doc.data())).toList();
     }
     return [];
   }
@@ -32,7 +33,7 @@ class FirestoreService {
         .collection('favteams')
         .snapshots()
         .map((snapshot) {
-          return snapshot.docs.map((doc) => Team.fromMap(doc.data())).toList();
+          return snapshot.docs.map((doc) => Team.fromJson(doc.data())).toList();
         });
   }
 
@@ -50,6 +51,22 @@ class FirestoreService {
       if (team.isFavorite) {
         await markFavorite(uid, team.id);
       }
+    }
+  }
+
+  Future<void> addTeam(Team team) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    // Referencia al documento: colección 'teams', documento con el ID del equipo
+    _db.collection('users').doc(uid).collection('favteams').doc(team.id).set({
+      'teamId': team.id,
+      'teamName': team.name,
+      'federacion': team.federacion,
+      'liga': team.liga,
+      'isFavorite': team.isFavorite,
+    });
+
+    if (team.isFavorite) {
+      await markFavorite(uid, team.id);
     }
   }
 

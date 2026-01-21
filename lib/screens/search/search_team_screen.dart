@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hockey_app/models/federation.dart';
-import 'package:hockey_app/screens/search/league_in_fed_screen.dart';
+import 'package:hockey_app/screens/search/leagues_in_fed_screen.dart';
 import 'package:hockey_app/services/api_service.dart';
 import 'package:hockey_app/widgets/appbar/appbar_items.dart';
 
@@ -66,8 +66,9 @@ class _SearchTeamScreenState extends State<SearchTeamScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            LeagueInFedScreen(federationId: federation.id),
+                        builder: (context) => LeagueInFedScreen(
+                          acronimoFed: federation.acronym.toUpperCase(),
+                        ),
                       ),
                     );
                   },

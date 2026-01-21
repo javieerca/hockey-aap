@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
-      //body cambia segun el indice
+      //body cambia segun el  indice
       body: _pantallas[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         // Propiedades Estéticas

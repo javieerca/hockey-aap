@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hockey_app/models/team.dart';
+import 'package:hockey_app/services/api_service.dart';
 import 'package:hockey_app/services/auth_service.dart';
 import 'package:hockey_app/services/firestore_service.dart';
 import 'package:hockey_app/widgets/appbar/appbar_items.dart';
@@ -13,6 +14,14 @@ class FavouritesScreen extends StatefulWidget {
 }
 
 class _FavouritesScreenState extends State<FavouritesScreen> {
+  final TextEditingController _testController = TextEditingController();
+
+  @override
+  void dispose() {
+    _testController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +35,44 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
       body: ListView(
         children: [
           FavTeamItemList(),
+
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: FloatingActionButton(
+          //     onPressed: () {
+          //       uploadHockeyTeams();
+          //     },
+          //     child: const Text('Añadir equipos'),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: FloatingActionButton(
+            child: InputChip(
               onPressed: () {
-                uploadHockeyTeams();
+                // Placeholder
               },
-              child: const Text('Añadir equipos'),
+              label: const Text('Añadir equipos'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _testController,
+              decoration: const InputDecoration(
+                labelText: 'Simula seleccionar un equipo',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: ElevatedButton(
+              onPressed: () async {
+                //busca el equipo por id y lo añade a siguiendo
+                final team = await getTeamById(_testController.text);
+                await addFollowingTeam(team);
+              },
+              child: const Text('Iniciar Acción'),
             ),
           ),
         ],
@@ -41,8 +81,19 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     );
   }
 
+  Future<Team> getTeamById(String id) async {
+    final ApiService apiService = ApiService();
+    final team = await apiService.getTeamById(id);
+    return team;
+  }
+
+  Future<void> addFollowingTeam(Team team) async {
+    final db = FirestoreService();
+    await db.addTeam(team);
+  }
+
   Future<void> uploadHockeyTeams() async {
-    final FirestoreService db = FirestoreService();
+    final db = FirestoreService();
     final AuthService authService = AuthService();
     // 1. Creamos el Batch (lote de escritura)
 
@@ -56,6 +107,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'RFEP',
         liga: 'OK Liga',
         isFavorite: true,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_01',
+        siglas: 'FCB',
       ),
       Team(
         id: 'team_02',
@@ -64,6 +119,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'RFEP',
         liga: 'OK Liga',
         isFavorite: false,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_02',
+        siglas: 'DLC',
       ),
       Team(
         id: 'team_03',
@@ -72,6 +131,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'RFEP',
         liga: 'OK Liga',
         isFavorite: false,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_03',
+        siglas: 'RDI',
       ),
       Team(
         id: 'team_04',
@@ -80,6 +143,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'RFEP',
         liga: 'OK Liga',
         isFavorite: false,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_04',
+        siglas: 'CEN',
       ),
       Team(
         id: 'team_05',
@@ -88,6 +155,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'RFEP',
         liga: 'OK Liga',
         isFavorite: false,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_05',
+        siglas: 'IGH',
       ),
       Team(
         id: 'team_06',
@@ -96,6 +167,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'FPP',
         liga: '1ª Divisão',
         isFavorite: false,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_06',
+        siglas: 'FPP',
       ),
       Team(
         id: 'team_07',
@@ -104,6 +179,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'FPP',
         liga: '1ª Divisão',
         isFavorite: false,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_07',
+        siglas: 'SLB',
       ),
       Team(
         id: 'team_08',
@@ -112,6 +191,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'FPP',
         liga: '1ª Divisão',
         isFavorite: false,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_08',
+        siglas: 'SCP',
       ),
       Team(
         id: 'team_09',
@@ -120,6 +203,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'FPP',
         liga: '1ª Divisão',
         isFavorite: false,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_09',
+        siglas: 'UDO',
       ),
       Team(
         id: 'team_10',
@@ -128,6 +215,10 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         federacion: 'FPP',
         liga: '1ª Divisão',
         isFavorite: false,
+        logo:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/FC_Barcelona_logo.svg/1200px-FC_Barcelona_logo.svg.png',
+        clubId: 'team_10',
+        siglas: 'OCB',
       ),
     ];
 
